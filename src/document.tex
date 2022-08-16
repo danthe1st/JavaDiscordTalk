@@ -1,0 +1,570 @@
+\documentclass{beamer}
+
+\mode<presentation>
+{
+\usetheme{Warsaw}
+\setbeamercovered{transparent}
+%\useoutertheme{infolines}
+%\setbeamertemplate{footline}[frame number]
+}
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{mathptmx}
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+
+\usepackage{hyperref}
+\usepackage{listings}
+
+
+\usepackage[T1]{fontenc}
+
+\lstset{
+	language=Java,
+	basicstyle=\scriptsize\ttfamily,
+	xleftmargin=5pt,
+	numbers=left,
+	numberstyle=\tiny,
+	numberfirstline=true,
+	stepnumber=1,
+	numbersep=5pt,
+	tabsize=2,
+	breaklines=true,
+	stringstyle=\ttfamily\color{green!50!black},
+	showstringspaces=false
+}
+
+\title{What various OpenJDK Projects are about}
+
+\subtitle{\href{https://openjdk.org/projects/}{https://openjdk.org/projects/}}
+
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+%\author{F.~Author\inst{1} \and S.~Another\inst{2}}
+\author{dan1st}
+
+\date{JavaTalk August}%TODO date / occasion
+
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+\pgfdeclareimage[height=0.5cm]{server-logo}{ServerLogo}
+\logo{\pgfuseimage{server-logo}}
+
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+\begin{frame}<beamer>
+\frametitle{Outline}
+\tableofcontents[currentsection,currentsubsection]
+\end{frame}
+}
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command:
+
+%\beamerdefaultoverlayspecification{<+->}
+
+\begin{document}
+
+\begin{frame}
+\frametitle{}
+\titlepage
+\end{frame}
+
+\begin{frame}
+I am neither endorsed nor affiliated with Oracle Inc.
+
+I do not claim this presentation being complete in any way.
+
+Significant parts of this talk are subject to change, I do not guarantee anything.
+\end{frame}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+% You might wish to add the option [pausesections]
+\end{frame}
+
+\section{Introduction}
+
+\subsection[About me]{About me}
+\begin{frame}
+
+\frametitle{About me}
+
+\begin{itemize}
+  \item \href{https://github.com/danthe1st}{danthe1st on GitHub}
+  \item dan1st\#7327 on Discord
+  \item Java Community
+  \begin{itemize}
+	  \item active member since May, 2020
+	  \item Moderating since January, 2022
+	  \item Staff Lead since August, 2022
+	\end{itemize}
+  \item Studying AI
+\end{itemize}
+\end{frame}
+
+\subsection{OpenJDK Projects}
+
+\begin{frame}
+\frametitle{What are OpenJDK projects?}
+% Inline-Codeblocks-->\texttt{Text}
+% You can create overlays
+\begin{itemize}
+  \item ``A Project is a collaborative effort to produce a specific artifact, which may be a body of code, or documentation, or some other material.''
+  	\footnote{\href{https://openjdk.org/projects/}{OpenJDK Projects page}}
+  \pause
+  \item Changes to Java
+  \begin{itemize}
+    \item grouped together
+  \end{itemize}
+  \pause
+  \item Examples of previous Projects
+  \begin{itemize}
+    \item \href{https://openjdk.org/projects/jigsaw/}{Project Jigsaw}:
+    	modules in the JDK
+    \item \href{https://openjdk.org/projects/lambda/}{Project Lambda}:
+    	Lambda Expressions
+    \item \href{https://openjdk.org/projects/coin/}{Project Coin}
+    	syntactic sugar like \texttt{try-with-resources} or the diamond operator on generics (\texttt{<>})
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+% Inline-Codeblocks-->\texttt{Text}
+%\pause oder \item<3-> oder \uncover<3->{alles, was zu uncovern ist}}
+% You can create overlays
+
+\section{Projects}
+
+\subsection{Project Amber}
+\begin{frame}
+\frametitle{Project Amber}
+\begin{itemize}
+  \item ``The goal of Project Amber is to explore and incubate smaller, productivity-oriented Java language features that have been accepted as candidate JEPs in the OpenJDK JEP Process.''
+	\footnote{\href{https://openjdk.org/projects/amber/}{Project Page}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sealed classes}
+\begin{itemize}
+  \item \href{https://openjdk.java.net/jeps/409}{JEP 409}
+  \item Fully available since java 17
+  \pause
+  \item modifier \texttt{sealed} for classes and interfaces
+  \item can be extended only be ``permitted'' types
+  \item Those types need to be \texttt{sealed}, \texttt{final} or \texttt{non-sealed} (can be extended by other classes)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sealed classes}
+\lstinputlisting[linerange=3]{amber/sealed_classes/SealedClass.java}
+\lstinputlisting[linerange=3]{amber/sealed_classes/FinalSubclass.java}
+\lstinputlisting[linerange=3]{amber/sealed_classes/NonSealedSubclass.java}
+\lstinputlisting[linerange=3]{amber/sealed_classes/SomeOtherClass.java}
+\end{frame}
+
+\begin{frame}
+\frametitle{Records}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/395}{JEP 305}
+  \item Fully available since java 17
+  \pause
+  \item special classes for immutable data
+  \item \texttt{record} instead of \texttt{class}
+  \item All fields are \texttt{final}
+  \item Records cannot be extended
+  \item Record components (fields) have implicit public accessors
+  \item No other fields possible
+  \item implicit ``Canonical constructor'' with all record components
+  \item implicit \texttt{equals}, \texttt{hashCode} and \texttt{toString} methods
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Records}
+\lstinputlisting[linerange=3]{amber/records/ComplexPoint.java}
+\end{frame}
+\begin{frame}
+\frametitle{Records}
+\lstinputlisting[linerange=5-9]{amber/records/RecordUse.java}
+\end{frame}
+
+\begin{frame}
+\frametitle{Patternmatching for instanceof}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/394}{JEP 394}
+  \item Fully available since Java 16
+  \pause
+  \item Allows to combine \texttt{instanceof} checks with casts
+\end{itemize}
+\pause
+\lstinputlisting[linerange=5-8]{amber/patternmatching/InstanceofPatternmatching.java}
+\end{frame}
+
+\begin{frame}
+\frametitle{Switch expressions}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/361}{JEP 361}
+  \item fully available since Java 14
+  \pause
+  \item allows to use \texttt{switch} in expressions
+  \item \texttt{yield} keyword allows ``returning'' an expression in a block
+  \item Switch expressions need to be exhaustive
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Switch expressions}
+\lstinputlisting[linerange=5-11]{amber/switchexpressions/SwitchExpressions.java}
+\end{frame}
+
+\begin{frame}
+\frametitle{Patternmatching for switch}
+\begin{itemize}
+  \item Preview JEPs \href{https://openjdk.org/jeps/406}{406}, \href{https://openjdk.org/jeps/420}{420} and \href{https://openjdk.org/jeps/427}{427}
+  \item Available as a Preview feature since Java 17, not yet fully available, still subject to change
+  \pause
+  \item allows to use \texttt{instanceof} checks inside \texttt{switch} statements
+  \item can be used with Switch Expressions
+  \item Switch patternmatching allows to check for \texttt{null} instead of throwing \texttt{NullPointerException}s
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Patternmatching for switch}
+\lstinputlisting[linerange=5-11]{amber/patternmatching/SwitchPatternmatching.java}
+\end{frame}
+
+\begin{frame}
+\frametitle{Text blocks}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/378}{JEP 378}
+  \item fully available since Java 15
+  \pause
+  \item creating \texttt{String}s over multiple lines without String concatenation
+\end{itemize}
+\pause
+\lstinputlisting[linerange=5-10]{amber/textblocks/TextBlocks.java}
+\end{frame}
+
+\begin{frame}
+\frametitle{Local-Variable Type Inference}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/286}{JEP 286}
+  \item fully available since Java 10
+  \pause
+  \item Type in variable declarations can be replaced by \texttt{var}
+  \item if the type can be inferred from right side
+  \item Only works with local variables
+  \pause
+  \item e.\,g. \texttt{var someString = "Hello World";}
+  \item e.\,g. \texttt{var someList = new ArrayList<String>();}
+\end{itemize}
+\end{frame}
+
+\subsection{Project Loom}
+\begin{frame}
+\frametitle{Project Loom}
+\begin{itemize}
+  \item ``Project Loom is to intended to explore, incubate and deliver Java VM features and APIs built on top of them for the purpose of supporting easy-to-use, high-throughput lightweight concurrency and new programming models on the Java platform.''
+  \footnote{\href{https://wiki.openjdk.org/display/loom/Main}{Project Wiki}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Virtual Threads}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/425}{JEP 425}
+  \item available as a Preview feature in Java 19, not yet fully available, still subject to change
+  \pause
+  \item new ``type'' of thread
+  \item cheap to create lots of virtual threads
+  \item no need to reuse/pool virtual threads
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Virtual Threads}
+\begin{itemize}
+  \item use concept of ``work-stealing''
+  \begin{itemize}
+	\item platform threads shared between multiple virtual threads
+	\item Virtual thread blocking \textrightarrow{} used by other virtual threads
+  \end{itemize}
+  \pause
+  \item \texttt{Thread.Builder} API with \texttt{Thread.ofPlatform()} and \texttt{Thread.ofVirtual()}
+  \item new \texttt{ExecutorService} with \texttt{Executors.newVirtualThreadPerTaskExecutor()}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Virtual Threads}
+\lstinputlisting[linerange=8-14]{loom/virtual_threads/VirtualThreads.java}
+\end{frame}
+\begin{frame}
+\frametitle{Virtual Threads - Limitations}
+\begin{itemize}
+  \item \texttt{synchronized} and native code blocks the platform thread
+  \item no performance improvement if all tasks are CPU-bound
+  \item accessing of a \texttt{ThreadLocal} from many (virtual) thread is resource-intensive
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Structured Concurrency}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/428}{JEP 428}
+  \item available as an incubator module (\texttt{jdk.incubator.concurrent}) in Java 19, not yet fully available
+  \pause
+  \item new API for multithreading
+  \item \texttt{StructuredTaskScope} for creating multiple tasks
+  \item \texttt{StructuredTaskScope\#fork} submits tasks
+  \item \texttt{StructuredTaskScope.ShutdownOnFailure} stops once a task fails
+  \item \texttt{StructuredTaskScope.ShutdownOnSuccess} stops once a task finishes successfully
+
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Structured Concurrency}
+\lstinputlisting[linerange=10-24]{loom/structured_concurrency/StructuredConcurrency.java}
+\end{frame}
+\begin{frame}
+\frametitle{Structured Concurrency}
+\lstinputlisting[linerange=26-40]{loom/structured_concurrency/StructuredConcurrency.java}
+\end{frame}
+
+
+% limitations
+
+
+\subsection{Project Valhalla}
+\begin{frame}
+\frametitle{Project Valhalla}
+\begin{itemize}
+  \item ``Project Valhalla plans to augment the Java object model with value objects and user-defined primitives, combining the abstractions of object-oriented programming with the performance characteristics of simple primitives. These features will be complemented with changes to Java's generics to preserve performance gains through generic APIs.''
+  \footnote{\href{https://openjdk.org/projects/valhalla/}{Project Page}}
+  \pause
+  \item Value objects
+  \item Complex primitives
+  \item Unified generics
+  \item highly subject to change
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Value objects/inline types}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/8277163}{Submitted JEP draft}
+  \item not yet available, hopefully soon\textsuperscript{tm}, subject to change
+  \pause
+  \item new kind of objects
+  \item reference types
+  \item All fields are \texttt{final} (need to be reassigned when changing state)
+  \item \texttt{==} compares values, not references
+  \item cannot be used for synchronization
+  \item \texttt{value} \href{https://wiki.openjdk.org/display/valhalla/L-World}{(or \texttt{inline})} and \texttt{identity} modifier for types
+  \item interfaces, classes, records
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Value objects}
+% mention of 'inline' modifier: https://download.java.net/java/early_access/valhalla/docs/api/java.base/java/lang/__inline__.html
+\begin{lstlisting}
+value /* or inline*/ class ComplexPoint{
+	private double real;
+	private double imaginary;
+	public ComplexPoint(double real, double imaginary){
+		this.real = real;
+		this.imaginary = imaginary;
+	}
+	//standard boilerplate
+}
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+ComplexPoint p = new ComplexPoint(1,1);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Complex Primitives}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/401}{Candidate JEP 401}
+  \item not yet available, hopefully soon\textsuperscript{tm}, subject to change
+  \pause
+  \item new kind of objects, similar to Value objects
+  \item \emph{not} reference types
+  \item all fields are \texttt{final} (need to be reassigned when changing state)
+  \item can\emph{not} be \texttt{null}
+  \item \texttt{==} compares values
+  \item cannot be used for synchronization
+  \item arrays possible as well
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Complex Primitives - Reference representation}
+\begin{itemize}
+  \item reference representation with \texttt{.ref}
+  \item can be null
+  \item like \texttt{Integer} is for \texttt{int}
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Complex Primitives}
+\begin{lstlisting}
+primitive class ComplexPoint{
+	private double real;
+	private double imaginary;
+	public ComplexPoint(double real, double imaginary){
+		this.real = real;
+		this.imaginary = imaginary;
+	}
+	//standard boilerplate
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Complex Primitives}
+\begin{lstlisting}
+ComplexPoint p = new ComplexPoint(1,1);
+//p = null // Compile-time error
+ComplexPoint.ref refToP = p;
+refToP = null; // works
+ComplexPoint[] arr = new ComplexPoint[2]; // 2 points with both variables being 0
+ComplexPoint.ref[] arrayOfReferences = new ComplexPoint.ref[2]; // two null references
+\end{lstlisting}
+\end{frame}
+% Parametric JVM?
+
+\begin{frame}
+\frametitle{Classes for the Basic Primitives}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/402}{Candidate JEP 402}
+  \item not yet available, hopefully soon\textsuperscript{tm}, subject to change
+  \pause
+  \item Wrapper classes for primitive types are changed to be reference representations
+  \item e.\,g. \texttt{Integer} meaning \texttt{int.ref} (\texttt{int.ref} may or may not be valid)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Universal Generics}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/8261529}{Submitted JEP draft}
+  \item not yet available, hopefully soon\textsuperscript{tm}, subject to change
+  \pause
+  \item allow using generics for primitive types
+  \item including complex primitives and ``standard primitives'' like \texttt{int}
+\end{itemize}
+\end{frame}
+
+\subsection{Project Panama}
+\begin{frame}
+\frametitle{Project Panama}
+\begin{itemize}
+  \item ``We are improving and enriching the connections between the Java virtual machine and well-defined but ``foreign'' (non-Java) APIs, including many interfaces commonly used by C programmers.''
+  \footnote{\href{https://openjdk.org/projects/panama/}{Project Page}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Foreign Function \& Memory API}
+\begin{itemize}
+  \item \href{https://openjdk.org/jeps/424}{JEP 424}
+  \item Available as a Preview feature in Java 19, not yet fully available, still subject to change
+  \item Earlier versions available in Java 14 (\href{https://openjdk.org/jeps/370}{JEP 370: Foreign-Memory Access API}) and 16 (\href{https://openjdk.org/jeps/389}{JEP 389: Foreign Linker API}) as incubators
+  \pause
+  \item API for accessing native memory and calling native functions
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Foreign Function \& Memory API}
+\lstinputlisting[linerange=16-24]{panama/foreign/ForeignFunctionMemoryAPI.java}
+\end{frame}
+
+\begin{frame}
+\frametitle{Vector API}
+\begin{itemize}
+  \item JEP \href{https://openjdk.org/jeps/338}{338}, \href{https://openjdk.org/jeps/414}{414}, \href{https://openjdk.org/jeps/417}{417} and \href{https://openjdk.org/jeps/426}{426}
+  \item Available as a Incubating API since Java 16, not yet fully available, still subject to change
+  \pause
+  \item API for accessing vector operations
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Vector API}
+\lstinputlisting[linerange=9-18]{panama/vector/VectorAPI.java}
+\end{frame}
+
+\subsection{Project Lilliput}
+\begin{frame}
+\frametitle{Project Lilliput}
+\begin{itemize}
+  \item ``The goal of this Project is to explore techniques to downsize Java object headers in the Hotspot JVM from 128 bits to 64 bits or less, reducing Java's memory footprint. Improved performance across most, if not all, workloads is also expected.''
+  \footnote{\href{https://openjdk.org/projects/lilliput/}{Project Page}}
+  \pause
+  \item Java requires 128 bits (or 96 bits with ``compressed oops'') of metadata per object
+  \item reduce to 64 or ideally 32 bits
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Project Lilliput}
+\begin{itemize}
+  \item less work for GC
+  \item less RAM
+  \item overall better performance
+  \pause
+  \item \href{https://mail.openjdk.org/pipermail/lilliput-dev/2022-May/000457.html}{64 bits already achieved}
+\end{itemize}
+\end{frame}
+
+\subsection{Project Metropolis}
+\begin{frame}
+\frametitle{Project Metropolis}
+\begin{itemize}
+  \item ``The goal of this Project is provide a venue to explore and incubate advanced "Java-on-Java" implementation techniques for HotSpot. Our starting point is earlier proposals for using the Graal compiler and AOT static compilation technology to replace the HotSpot server compiler, and possibly other components of HotSpot.''
+  \footnote{\href{https://openjdk.org/projects/metropolis/}{Project Page}}
+  \pause
+  \item Implement significant parts (especially the JIT) of the JVM in Java
+  \footnote{\href{https://cr.openjdk.java.net/~jrose/metropolis/Metropolis-Proposal.html}{Proposal}}
+  \item improve performance, simplify JVM implementation
+  \item based on GraalVM
+\end{itemize}
+\end{frame}
+
+\subsection{Project Leyden}
+\begin{frame}
+\frametitle{Project Leyden}
+\begin{itemize}
+  \item ``The primary goal of this Project is to address the long-term pain points of Java's slow startup time, slow time to peak performance, and large footprint.''
+  \footnote{\href{https://openjdk.org/projects/leyden/}{Project Page}}
+  \pause
+  \item improve JVM start-up time and memory footprint
+  \item using ``static images''
+  \item contains application, no more
+  \item no class loading at runtime
+\end{itemize}
+\end{frame}
+
+% Questions, further reading (yt)?
+
+\section{}
+
+\begin{frame}
+\frametitle{}
+\begin{itemize}
+  \item More info: \href{https://inside.java}{inside.java}
+  \item Questions?
+\end{itemize}
+\end{frame}
+
+\end{document}
