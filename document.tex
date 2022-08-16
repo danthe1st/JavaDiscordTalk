@@ -145,10 +145,10 @@ Significant parts of this talk are subject to change, I do not guarantee anythin
 
 \begin{frame}
 \frametitle{Sealed classes}
-\lstinputlisting[linerange=3]{amber/sealed_classes/SealedClass.java}
-\lstinputlisting[linerange=3]{amber/sealed_classes/FinalSubclass.java}
-\lstinputlisting[linerange=3]{amber/sealed_classes/NonSealedSubclass.java}
-\lstinputlisting[linerange=3]{amber/sealed_classes/SomeOtherClass.java}
+\lstinputlisting[linerange=3]{src/amber/sealed_classes/SealedClass.java}
+\lstinputlisting[linerange=3]{src/amber/sealed_classes/FinalSubclass.java}
+\lstinputlisting[linerange=3]{src/amber/sealed_classes/NonSealedSubclass.java}
+\lstinputlisting[linerange=3]{src/amber/sealed_classes/SomeOtherClass.java}
 \end{frame}
 
 \begin{frame}
@@ -169,11 +169,11 @@ Significant parts of this talk are subject to change, I do not guarantee anythin
 \end{frame}
 \begin{frame}
 \frametitle{Records}
-\lstinputlisting[linerange=3]{amber/records/ComplexPoint.java}
+\lstinputlisting[linerange=3]{src/amber/records/ComplexPoint.java}
 \end{frame}
 \begin{frame}
 \frametitle{Records}
-\lstinputlisting[linerange=5-9]{amber/records/RecordUse.java}
+\lstinputlisting[linerange=5-9]{src/amber/records/RecordUse.java}
 \end{frame}
 
 \begin{frame}
@@ -185,7 +185,7 @@ Significant parts of this talk are subject to change, I do not guarantee anythin
   \item Allows to combine \texttt{instanceof} checks with casts
 \end{itemize}
 \pause
-\lstinputlisting[linerange=5-8]{amber/patternmatching/InstanceofPatternmatching.java}
+\lstinputlisting[linerange=5-8]{src/amber/patternmatching/InstanceofPatternmatching.java}
 \end{frame}
 
 \begin{frame}
@@ -201,7 +201,7 @@ Significant parts of this talk are subject to change, I do not guarantee anythin
 \end{frame}
 \begin{frame}
 \frametitle{Switch expressions}
-\lstinputlisting[linerange=5-11]{amber/switchexpressions/SwitchExpressions.java}
+\lstinputlisting[linerange=5-11]{src/amber/switchexpressions/SwitchExpressions.java}
 \end{frame}
 
 \begin{frame}
@@ -217,7 +217,7 @@ Significant parts of this talk are subject to change, I do not guarantee anythin
 \end{frame}
 \begin{frame}
 \frametitle{Patternmatching for switch}
-\lstinputlisting[linerange=5-11]{amber/patternmatching/SwitchPatternmatching.java}
+\lstinputlisting[linerange=5-11]{src/amber/patternmatching/SwitchPatternmatching.java}
 \end{frame}
 
 \begin{frame}
@@ -229,7 +229,7 @@ Significant parts of this talk are subject to change, I do not guarantee anythin
   \item creating \texttt{String}s over multiple lines without String concatenation
 \end{itemize}
 \pause
-\lstinputlisting[linerange=5-10]{amber/textblocks/TextBlocks.java}
+\lstinputlisting[linerange=5-10]{src/amber/textblocks/TextBlocks.java}
 \end{frame}
 
 \begin{frame}
@@ -282,7 +282,7 @@ Significant parts of this talk are subject to change, I do not guarantee anythin
 \end{frame}
 \begin{frame}
 \frametitle{Virtual Threads}
-\lstinputlisting[linerange=8-14]{loom/virtual_threads/VirtualThreads.java}
+\lstinputlisting[linerange=8-14]{src/loom/virtual_threads/VirtualThreads.java}
 \end{frame}
 \begin{frame}
 \frametitle{Virtual Threads - Limitations}
@@ -309,11 +309,11 @@ Significant parts of this talk are subject to change, I do not guarantee anythin
 \end{frame}
 \begin{frame}
 \frametitle{Structured Concurrency}
-\lstinputlisting[linerange=10-24]{loom/structured_concurrency/StructuredConcurrency.java}
+\lstinputlisting[linerange=10-24]{src/loom/structured_concurrency/StructuredConcurrency.java}
 \end{frame}
 \begin{frame}
 \frametitle{Structured Concurrency}
-\lstinputlisting[linerange=26-40]{loom/structured_concurrency/StructuredConcurrency.java}
+\lstinputlisting[linerange=26-40]{src/loom/structured_concurrency/StructuredConcurrency.java}
 \end{frame}
 
 \subsection{Project Valhalla}
@@ -458,7 +458,7 @@ ComplexPoint.ref[] arrayOfReferences = new ComplexPoint.ref[2]; // two null refe
 \end{frame}
 \begin{frame}
 \frametitle{Foreign Function \& Memory API}
-\lstinputlisting[linerange=16-24]{panama/foreign/ForeignFunctionMemoryAPI.java}
+\lstinputlisting[linerange=16-24]{src/panama/foreign/ForeignFunctionMemoryAPI.java}
 \end{frame}
 
 \begin{frame}
@@ -472,7 +472,7 @@ ComplexPoint.ref[] arrayOfReferences = new ComplexPoint.ref[2]; // two null refe
 \end{frame}
 \begin{frame}
 \frametitle{Vector API}
-\lstinputlisting[linerange=9-18]{panama/vector/VectorAPI.java}
+\lstinputlisting[linerange=9-18]{src/panama/vector/VectorAPI.java}
 \end{frame}
 
 \subsection{Project Lilliput}

@@ -19,9 +19,8 @@ jobs:
       uses: xu-cheng/latex-action@v2
       with:
         root_file: document.tex
-        working_directory: src
     - name: upload presentation
       uses: actions/upload-artifact@v2
       with:
         name: Presentation
-        path: src/document.pdf
+        path: document.pdf
